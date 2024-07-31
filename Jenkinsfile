@@ -15,7 +15,7 @@ pipeline {
             steps {
                 dir('D:\\CDAC\\AI_Trends\\Docker_Projects\\ASR-Deployment') {
                     // some block
-                    bat 'git pull origin b1'    
+                    bat 'git pull origin main'    
                 }
             }
         } 

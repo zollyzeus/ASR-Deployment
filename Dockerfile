@@ -14,6 +14,7 @@ WORKDIR /usr/ML/app
 
 #Install the required libraries
 RUN pip install -r requirements.txt
+RUN mkdir /usr/uploads
 
 #container start up command
 CMD python flask_api.py
