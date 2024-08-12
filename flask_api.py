@@ -5,7 +5,7 @@ Created on Mon May 25 12:50:04 2020
 @author: pramod.singh
 """
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 import numpy as np
 import pickle
 import pandas as pd
@@ -34,8 +34,29 @@ LR=1e-4
 FRAME_LENGTH=255
 FRAME_STEP=128
 N_EPOCHS=100
+model_path=''
 
 vocabulary=[""]+[chr(i) for i in range(97,97+26)]+[".",",","?"," "]
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/process_form', methods=['POST'])
+def process_form():
+    global model_path
+    selected_option = request.form['option']
+    if(selected_option=='Tamil_Female'):
+      model_path='/usr/ML/app/ASR_IndicTTS_Tamil_Female_Model_Final.h5'
+    elif(selected_option=='Hindi_Female'):
+       model_path='/usr/ML/app/ASR_IndicTTS_Hindi_Female_Model_Final.h5'
+    elif(selected_option=='Tamil_Male'):
+       model_path='/usr/ML/app/ASR_IndicTTS_Tamil_Male_Model_Final.h5'
+    elif(selected_option=='Hindi_Male'):
+       model_path='/usr/ML/app/ASR_IndicTTS_Tamil_Female_Model_Final.h5'
+    elif(selected_option=='International'):
+      model_path='/usr/ML/app/ASR_LJSpeech_Model_Final.h5'
+    return f"The selected option is: {selected_option}"
     
 def decode(y_pred):
   batch_size=tf.shape(y_pred)[0]
@@ -78,7 +99,7 @@ def ctc_loss(y_true,y_pred):
   return tf.keras.backend.ctc_batch_cost(y_true,y_pred,pred_length,true_length)
   
 def get_model():
-
+    global model_path
     normalization=tf.keras.layers.Normalization()
     input_spectrogram=Input((None,129,1), name="input")
 
@@ -102,7 +123,7 @@ def get_model():
     model.compile(loss=ctc_loss,
                   optimizer=tf.keras.optimizers.Adam(learning_rate=LR),)
     
-    model.load_weights('/usr/ML/app/ASR_LJSpeech_Model_Final.h5')
+    model.load_weights(model_path)
     return model   
 
 
@@ -111,6 +132,11 @@ ALLOWED_EXT = set(['wav', 'mp3'])
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXT
+
+@app.route("/submitted", methods=['POST'])
+def model_choice():
+   model_path = request.form.get("teamDropdown")
+
 
 @app.route('/predict_file',methods=["POST"])
 def prediction_test_file():
