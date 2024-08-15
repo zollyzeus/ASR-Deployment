@@ -13,7 +13,7 @@ EXPOSE 5000
 WORKDIR /usr/ML/app
 
 #Install the required libraries
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 RUN mkdir /usr/uploads
 
 #container start up command
