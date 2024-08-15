@@ -53,7 +53,7 @@ def process_form():
     elif(selected_option=='Tamil_Male'):
        model_path='/usr/ML/app/ASR_IndicTTS_Tamil_Male_Model_Final.h5'
     elif(selected_option=='Hindi_Male'):
-       model_path='/usr/ML/app/ASR_IndicTTS_Hindi_Female_Model_Final.h5'
+       model_path='/usr/ML/app/ASR_IndicTTS_Hindi_Male_Model_Final.h5'
     elif(selected_option=='International'):
       model_path='/usr/ML/app/ASR_LJSpeech_Model_Final.h5'
     return f"The selected option is: {selected_option}"
