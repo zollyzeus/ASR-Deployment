@@ -56,6 +56,10 @@ def process_form():
        model_path='/usr/ML/app/ASR_IndicTTS_Hindi_Male_Model_Final.h5'
     elif(selected_option=='International'):
       model_path='/usr/ML/app/ASR_LJSpeech_Model_Final.h5'
+    elif(selected_option=='Noisy1'):
+      model_path='/usr/ML/app/ASR_Noisy_28spk_Model_Final.h5'
+    elif(selected_option=='Noisy2'):
+      model_path='/usr/ML/app/ASR_Noisy_56spk_Model_Final.h5'
     return f"The selected option is: {selected_option}"
     
 def decode(y_pred):
